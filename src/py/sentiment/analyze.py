@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# code from https://github.com/pthrasher/sentiment/blob/master/sentiment.py
+
 #
 #  classifier.py
 #  analyzes the sentiment of strings passed into stdin as json. (array of strings)

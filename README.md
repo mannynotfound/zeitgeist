@@ -5,6 +5,7 @@ Utility library for scraping real time event data without the use of official AP
 # credits
 
 The search code is from [TwitterWebsiteSearch](https://github.com/dtuit/TwitterWebsiteSearch)
+sentiment analysis code from [sentiment](https://github.com/pthrasher/sentiment)
 
 # data format
 Tweets extracted, are formatted similarly to the official API, detailed [here](https://dev.twitter.com/overview/api/tweets)
