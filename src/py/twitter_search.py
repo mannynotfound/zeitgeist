@@ -337,20 +337,4 @@ def inorder(tweets):
     tweets_sorted = sorted(tweets, key=itemgetter('id_str'))
 
 if __name__ == '__main__':
-    with open('output.txt', 'w') as f:
-        f.close()
-    import json
-    count = 0
-    for x in TwitterPager().get_iterator('a'):
-        with open('output.txt', 'a') as f:
-            reses = []
-            for t in x['tweets']:
-                reses.append(t['id_str'])
-                # reses.append([t['id_str'], t['created_at']])
-            print("{} {} {} {}".format(count, len(x['tweets']), x['_request'].url, x['_result_json'].get('min_position')))
-            f.write(json.dumps(reses, indent=4))
-            # f.write(json.dumps(x['tweets'], indent=4))
-            count += 1
-
-            if count == 5:
-                break
+    print('lol')
