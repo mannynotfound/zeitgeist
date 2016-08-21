@@ -25,7 +25,7 @@ def dump_json(path, term, data):
     with open(path + '/' + term + '.json', mode='w', encoding='utf-8') as f:
         json.dump(data, f)
 
-dump_path = os.path.dirname(os.path.realpath(__file__)) + '/term'
+dump_path = os.path.dirname(os.path.realpath(__file__)) + '/dump'
 if not os.path.exists(dump_path):
     os.makedirs(dump_path)
 else:
