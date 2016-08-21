@@ -4,7 +4,7 @@ import sys
 import os
 import io
 import argparse
-import twitter_search
+import TwitterWebsiteSearch
 
 # parse cli arguments
 ap = argparse.ArgumentParser()
@@ -49,7 +49,7 @@ else:
         dump_json(dump_path, term, [])
 
 # iterate through results
-twitter_search_page = twitter_search.TwitterPager().get_iterator(term)
+twitter_search_page = TwitterWebsiteSearch.TwitterPager().get_iterator(term)
 for page in twitter_search_page:
     for tweet in page['tweets']:
         total_count += 1

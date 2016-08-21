@@ -1,4 +1,5 @@
 accounts*
 node_modules*
-src/py/dump/*
-!src/py/dump/empty.json
+dump/*
+**.pyc
+!dump/empty.json

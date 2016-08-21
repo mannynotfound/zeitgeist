@@ -41,17 +41,17 @@ each tweet is a python dict with the following structure.
 ```
 # usage
 
-## terminator
+## twitter\_search
 scrapes twitter search for a certain search term
 
 ```bash
-./src/py/terminator.py -t [search term] -l [optional limit]
+./twitter_search.py -t [search term] -l [optional limit]
 ```
 
 eg:
 
 ```bash
-./src/py/terminator.py -t python
+./twitter_search.py -t python
 ```
 
 ## sentiment analyzer
@@ -59,13 +59,13 @@ eg:
 analyzes the positive/negative language of a dump of tweets
 
 ```bash
-./src/py/sentiment/analyze.py -f [filepath] -l [optional limit]
+./analyze.py -f [filepath] -l [optional limit]
 ```
 
 eg:
 
 ```bash
-./src/py/sentiment/analyze.py -f ~/Sites/zeitgeist/src/py/dump/my_tweets.json
+./analyze.py -f ~/Sites/zeitgeist/dump/my_tweets.json
 ```
 
 ## Dependencies 
