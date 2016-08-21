@@ -45,12 +45,11 @@ for page in twitter_search_page:
         added = False
         for existing in all_tweets:
             if (existing['id_str'] == tweet['id_str']):
-                print('ALREADY ADDED TWEET')
                 added = True
         if not added:
+            count += 1
+            print("{0} id: {1} text: {2}".format(count, tweet['id_str'], tweet['text']))
             all_tweets.append(tweet)
             if len(all_tweets) % 100 == 0:
                 dump_json(dump_path, term, all_tweets)
 
-        count += 1
-        print("{0} id: {1} text: {2}".format(count, tweet['id_str'], tweet['text']))
