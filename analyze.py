@@ -57,6 +57,7 @@ class Classifier():
         """generates the features for classification."""
         features = []
         for item in strings:
+            print('generating features for ', item, ' ...')
             feature = self._string_to_feature(item)
             if not(MIN_THRESHOLD <= self.classifier.prob_classify(feature).prob('pos') <= MAX_THRESHOLD):
                 features.append((feature, item,))
