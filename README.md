@@ -139,6 +139,7 @@ term_names="google,apple,uber" ./scripts/splitter.scpt
 ## dependencies 
 
 * [python3](http://docs.python.org/3/)
+* [forever](https://github.com/foreverjs/forever)
 * [pyrebase](https://github.com/thisbejim/Pyrebase)
 * [requests](http://docs.python-requests.org)
 * [lxml](http://lxml.de/index.html)
