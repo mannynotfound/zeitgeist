@@ -1,4 +1,3 @@
-from create_token import create_custom_token
 import pyrebase
 import os
 import json_utils
@@ -10,6 +9,5 @@ def create_firebase():
     config = json_utils.load_json(realpath, 'creds')
     # service account has to be file path to [credentials].json
     config['serviceAccount'] = realpath + '/service_account.json'
-    # create_custom_token('z31tg31st')
     return pyrebase.initialize_app(config)
 

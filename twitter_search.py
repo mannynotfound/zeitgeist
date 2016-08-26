@@ -44,7 +44,7 @@ class TwitterSearch():
 
     def save_to_firebase(self):
         fb = firebase.create_firebase()
-        db = fb.database().child('tweets').child(self.term).set(self.all_tweets)
+        db = fb.database().child('tweets').child(self.term).set(self.all_tweets[0:10000])
 
 
     def save_data(self):
@@ -67,6 +67,7 @@ class TwitterSearch():
                     print("{0} | {1}".format(self.print_count, tweet['text']))
                     self.all_tweets.append(tweet)
                     if len(self.all_tweets) % 100 == 0:
+                        self.all_tweets = json_utils.sort_by_time(self.all_tweets)
                         self.save_data()
 
 if __name__ == '__main__':
