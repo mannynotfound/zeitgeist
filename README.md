@@ -41,6 +41,36 @@ each tweet is a python dict with the following structure.
 ```
 # usage
 
+### firebase config:
+
+include a `creds.json` with your project info, eg
+
+```js
+{
+  "apiKey": "apiKey",
+  "authDomain": "projectId.firebaseapp.com",
+  "databaseURL": "https://databaseName.firebaseio.com",
+  "storageBucket": "projectId.appspot.com"
+}
+```
+
+and a `service_account.json` for use with authing to server
+
+```js
+{
+  "type": "service_account",
+  "project_id": "projectId",
+  "private_key_id": "privateKey",
+  "private_key": "BEGIN PRIVATE KEY---",
+  "client_email": "clientEmail",
+  "client_id": "clientId",
+  "auth_uri": "authUri",
+  "token_uri": "tokenUri",
+  "auth_provider_x509_cert_url": "authProvider",
+  "client_x509_cert_url": "clientCert"
+}
+```
+
 ## twitter\_search
 scrapes twitter search for a certain search term
 
