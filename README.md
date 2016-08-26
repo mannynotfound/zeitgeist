@@ -45,13 +45,13 @@ each tweet is a python dict with the following structure.
 scrapes twitter search for a certain search term
 
 ```bash
-./twitter_search.py -t [search term] -l [optional limit]
+./twitter_search.py -t [search term] -l [optional limit] -f [optional firebase flag]
 ```
 
 eg:
 
 ```bash
-./twitter_search.py -t python
+./twitter_search.py -t python -f
 ```
 
 ## sentiment analyzer
