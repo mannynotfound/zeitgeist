@@ -5,69 +5,80 @@ import os
 import io
 import argparse
 import TwitterWebsiteSearch
+import firebase
+import json_utils
 
-# parse cli arguments
-ap = argparse.ArgumentParser()
-ap.add_argument('-t', '--term', help = 'term to search for')
-ap.add_argument('-l', '--limit', help = 'max amount of tweets to search for')
 
-args = vars(ap.parse_args())
-term = args['term']
+class TwitterSearch():
+    def __init__(self, term, opts):
+        self.dump_path = os.path.dirname(os.path.realpath(__file__)) + '/dump'
+        self.term = term
+        self.limit = opts['limit']
+        self.use_firebase = opts['firebase']
+        self.print_count = 0
+        self.total_count = 0
+        self.all_tweets = []
+        self.check_existing()
+        self.do_twitter_search()
 
-if args['limit'] != None:
-    limit = int(args['limit'])
-else:
-    limit = False
+    def check_existing(self):
+        if self.use_firebase:
+            fb = firebase.create_firebase()
+            db_tweets = fb.database().child('tweets').child(self.term).get().val()
+            if db_tweets:
+                self.all_tweets = db_tweets
+                self.print_count = len(db_tweets)
 
-# track our state
-total_count = 0
-print_count = 0
-all_tweets = []
-
-# create / load the directory
-def load_json(path, filename):
-    with io.open('{0}/{1}.json'.format(path, filename),
-                 encoding='utf-8') as f:
-        return json.loads(f.read())
-
-def dump_json(path, term, data):
-    with open(path + '/' + term + '.json', mode='w', encoding='utf-8') as f:
-        json.dump(data, f)
-
-dump_path = os.path.dirname(os.path.realpath(__file__)) + '/dump'
-if not os.path.exists(dump_path):
-    os.makedirs(dump_path)
-else:
-    try:
-        current_json = load_json(dump_path, term)
-        if len(current_json) > 0:
-            all_tweets = current_json
-            print_count = len(current_json)
-
-    except Exception as e:
-        print('EXCEPTION LOADING JSON', e)
-        dump_json(dump_path, term, [])
-
-# iterate through results
-twitter_search_page = TwitterWebsiteSearch.TwitterPager().get_iterator(term)
-for page in twitter_search_page:
-    for tweet in page['tweets']:
-        total_count += 1
-        if limit and total_count >= limit:
-            print('EXITING!')
-            sys.exit()
         else:
-            added = False
-            for existing in all_tweets:
-                if (existing['id_str'] == tweet['id_str']):
-                    added = True
-            if not added:
-                print_count += 1
-                print("{0} | {1}".format(print_count, tweet['text']))
-                all_tweets.append(tweet)
-                if len(all_tweets) % 100 == 0:
-                    try:
-                        dump_json(dump_path, term, all_tweets)
-                    except:
-                        print('ERROR DUMPIN JSON')
+            if not os.path.exists(self.dump_path):
+                os.makedirs(self.dump_path)
+            else:
+                try:
+                    current_json = json_utils.load_json(self.dump_path, self.term)
+                    if len(current_json) > 0:
+                        self.all_tweets = current_json
+                        self.print_count = len(current_json)
+                except Exception as e:
+                    json_utils.dump_json(self.dump_path, self.term, [])
 
+
+    def save_to_firebase(self):
+        fb = firebase.create_firebase()
+        db = fb.database().child('tweets').child(self.term).set(self.all_tweets)
+
+
+    def save_data(self):
+        if self.use_firebase:
+            self.save_to_firebase()
+        else:
+            json_utils.dump_json(self.dump_path, self.term, self.all_tweets)
+
+
+    def do_twitter_search(self):
+        twitter_search_page = TwitterWebsiteSearch.TwitterPager().get_iterator(self.term)
+        for page in twitter_search_page:
+            for tweet in page['tweets']:
+                self.total_count += 1
+                if self.limit and self.total_count >= self.limit:
+                    print('EXITING!')
+                    sys.exit(1)
+                elif len([e for e in self.all_tweets if e['id_str'] == tweet['id_str']]) == 0:
+                    self.print_count += 1
+                    print("{0} | {1}".format(self.print_count, tweet['text']))
+                    self.all_tweets.append(tweet)
+                    if len(self.all_tweets) % 100 == 0:
+                        self.save_data()
+
+if __name__ == '__main__':
+    # parse cli arguments
+    ap = argparse.ArgumentParser()
+    ap.add_argument('-t', '--term', help = 'term to search for')
+    ap.add_argument('-l', '--limit', type=int, help = 'max amount of tweets to search for', nargs='?', default=0)
+    ap.add_argument('-f', '--firebase', help = 'save data to firebase', action="store_true")
+
+    args = vars(ap.parse_args())
+
+    TwitterSearch(args['term'], {
+            'limit': args['limit'],
+            'firebase': args['firebase']
+            })

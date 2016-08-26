@@ -14,7 +14,7 @@ def top_win(stdscr):
     (max_y, max_x) = stdscr.getmaxyx()
     begin_y = 0
     begin_x = 0
-    height = int(math.ceil(max_y * .5))
+    height = int(math.ceil(max_y * .9))
     width = max_x
     top = curses.newwin(height, width, begin_y, begin_x)
     top.box() # adds border
@@ -48,11 +48,11 @@ def bottom_stats(bottom, message):
 
 # parse cli arguments
 ap = argparse.ArgumentParser()
-ap.add_argument('-t', '--terms', type=str, help = 'term to search for')
+ap.add_argument('-t', '--term', type=str, help = 'term to search for')
 ap.add_argument('-l', '--limit', help = 'max amount of tweets to search for')
 
 args = vars(ap.parse_args())
-terms = args['terms'].split(',')
+term = args['term']
 
 if args['limit'] != None:
     limit = int(args['limit'])
@@ -69,7 +69,7 @@ def dump_json(path, term, data):
     with open(path + '/' + term + '.json', mode='w', encoding='utf-8') as f:
         json.dump(data, f)
 
-def perform_twitter_search(top, bottom, target, search_term):
+def perform_twitter_search(top, bottom, search_term):
     global limit
     # track our state
     total_count = 0
@@ -105,10 +105,8 @@ def perform_twitter_search(top, bottom, target, search_term):
                 if not added:
                     print_count += 1
                     message = "{0} | {1}".format(print_count, tweet['text'])
-                    if target == 'top':
-                        top_stats(top, message)
-                    else:
-                        bottom_stats(bottom, message)
+                    top_stats(top, message)
+                    bottom_stats(bottom, 'LOADING STATS....')
 
                     all_tweets.append(tweet)
                     if len(all_tweets) % 100 == 0:
@@ -121,12 +119,10 @@ def perform_twitter_search(top, bottom, target, search_term):
 def main(stdscr):
     # The start of the program
     # initialize windows
-    global terms
+    global term
     top = top_win(stdscr)
     bottom = bottom_win(stdscr, top)
-
-    perform_twitter_search(top, bottom, 'top', terms[0])
-    perform_twitter_search(top, bottom, 'bottom', terms[1])
+    perform_twitter_search(top, bottom, term)
 
 
 if __name__ == '__main__':

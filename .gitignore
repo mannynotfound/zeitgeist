@@ -1,5 +1,7 @@
 accounts*
 node_modules*
 dump/*
+creds*
+service_account*
 **.pyc
 !dump/empty.json
