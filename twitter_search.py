@@ -8,7 +8,6 @@ import TwitterWebsiteSearch
 import firebase
 import json_utils
 
-
 class TwitterSearch():
     def __init__(self, term, opts):
         self.dump_path = os.path.dirname(os.path.realpath(__file__)) + '/dump'
@@ -28,7 +27,6 @@ class TwitterSearch():
             if db_tweets:
                 self.all_tweets = db_tweets
                 self.print_count = len(db_tweets)
-
         else:
             if not os.path.exists(self.dump_path):
                 os.makedirs(self.dump_path)
@@ -41,18 +39,15 @@ class TwitterSearch():
                 except Exception as e:
                     json_utils.dump_json(self.dump_path, self.term, [])
 
-
     def save_to_firebase(self):
         fb = firebase.create_firebase()
         db = fb.database().child('tweets').child(self.term.replace('#', '')).set(self.all_tweets[0:10000])
-
 
     def save_data(self):
         if self.use_firebase:
             self.save_to_firebase()
         else:
             json_utils.dump_json(self.dump_path, self.term, self.all_tweets)
-
 
     def do_twitter_search(self):
         twitter_search_page = TwitterWebsiteSearch.TwitterPager().get_iterator(self.term)
@@ -69,7 +64,6 @@ class TwitterSearch():
                     if len(self.all_tweets) % 100 == 0:
                         self.all_tweets = json_utils.sort_by_time(self.all_tweets)
                         self.save_data()
-
 
 if __name__ == '__main__':
     # parse cli arguments

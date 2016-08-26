@@ -91,7 +91,7 @@ if __name__ == '__main__':
     trends_to_search = search()['_result_json']
     for hot_trend in trends_to_search[0:args['limit']]:
         realpath = os.path.normpath(os.getcwd()) + '/twitter_search.py'
-        command = 'forever start -c python3 ' + realpath
+        command = 'forever start --spinSleepTime 900000 -c python3 ' + realpath
         if args['firebase']:
             command += ' -f'
 

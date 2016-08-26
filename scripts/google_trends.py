@@ -5,6 +5,7 @@ import requests
 from requests import Request, Session
 from urllib.parse import quote, urlsplit
 import os
+from operator import itemgetter
 from subprocess import call
 import argparse
 import sys
@@ -33,7 +34,26 @@ def sort_results(json):
     return sorted(list(map(int, json)))
 
 def extract_results(json):
-    return json['1']
+    trends = json['1']
+
+    trend_counter = {}
+    for trend in trends:
+        if trend_counter.get(trend, False):
+            trend_counter[trend] += 1
+        else:
+            trend_counter[trend] = 1
+
+    def add_count(t):
+        return {
+                'name': t,
+                'count': trend_counter[t]
+                }
+
+    trends_list = list(map(add_count, set(trends)))
+    trends_filtered = sorted(trends_list, key=itemgetter('count'))
+    trends_filtered.reverse()
+
+    return trends_filtered
 
 def search(params={}, session=None):
     # Prepare request
@@ -44,7 +64,6 @@ def search(params={}, session=None):
 
     # Extract Results
     result_json = extract_results(result.json())
-    print(result_json)
 
     # Return Result
     return {
@@ -62,11 +81,11 @@ if __name__ == '__main__':
     trends_to_search = search()['_result_json']
     for hot_trend in trends_to_search[0:args['limit']]:
         realpath = os.path.normpath(os.getcwd()) + '/twitter_search.py'
-        command = 'forever start -c python3 ' + realpath
+        command = 'forever start --spinSleepTime 900000 -c python3 ' + realpath
         if args['firebase']:
             command += ' -f'
 
         command += ' -t'
         command_list = command.split()
-        command_list.append('"' + hot_trend + '"')
+        command_list.append('"' + hot_trend['name'] + '"')
         call(command_list)

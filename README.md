@@ -3,36 +3,36 @@
 Utility library for scraping real time event data without the use of official APIs.
 
 
-# data format
+## data format
 Tweets extracted, are formatted similarly to the official API, detailed [here](https://dev.twitter.com/overview/api/tweets)
 
 each tweet is a python dict with the following structure.
 ```
 {
-	'created_at' : UTC-datetime format '%Y-%m-%d %H:%M:%S' ,
-	'id_str' : "",
-	'text' : "",
-	'entities': {
-		'hashtags': [],
-		'symbols':[],
-		'user_mentions':[],
-		'urls':[],
-		'media'[] optional
-		},
-	'user' : {
-		'id_str' : "",
-		'name' : "",
-		'screen_name': "",
-		'profile_image_url': "",
-		'verified': bool
-		},
-	'retweet_count' : 0,
-	'favorite_count' : 0,
-	'is_quote_status' : False,
-	'in_reply_to_user_id': None,
-	'in_reply_to_screen_name' : None,
-	'contains_photo': False,
-	'contains_video': False
+  'created_at' : UTC-datetime format '%Y-%m-%d %H:%M:%S' ,
+  'id_str' : "",
+  'text' : "",
+  'entities': {
+    'hashtags': [],
+    'symbols':[],
+    'user_mentions':[],
+    'urls':[],
+    'media'[] optional
+    },
+  'user' : {
+    'id_str' : "",
+    'name' : "",
+    'screen_name': "",
+    'profile_image_url': "",
+    'verified': bool
+    },
+  'retweet_count' : 0,
+  'favorite_count' : 0,
+  'is_quote_status' : False,
+  'in_reply_to_user_id': None,
+  'in_reply_to_screen_name' : None,
+  'contains_photo': False,
+  'contains_video': False
 }
 ```
 # usage
@@ -80,18 +80,32 @@ eg:
 ./twitter_search.py -t python -f
 ```
 
-## google\_trends
+## all\_trends
 
-scrapes google trends API for trending topics & launches a `forever` `twitter_search` process for each topic
+uses all the trend collection scripts, merges them & launches a `forever` `twitter_search` process for each topic
 
 ```bash
-./scripts/google_trends.py -l [optional limit, defaults to 10]
+./scripts/all_trends.py -l [optional limit, defaults to 10] -f [optional firebase flag]
 ```
 
 eg:
 
 ```bash
-./scripts/google_trends.py -l 20
+./scripts/google_trends.py -l 20 -f
+```
+
+## google\_trends
+
+scrapes google trends API for trending topics & launches a `forever` `twitter_search` process for each topic
+
+```bash
+./scripts/google_trends.py -l [optional limit, defaults to 10] -f [optional firebase flag]
+```
+
+eg:
+
+```bash
+./scripts/google_trends.py -l 20 -f
 ```
 
 ## twitter\_trends
@@ -99,13 +113,13 @@ eg:
 scrapes a twitter trends website for trending topics & launches a `forever` `twitter_search` process for each topic
 
 ```bash
-./scripts/twitter_trends.py -l [optional limit, defaults to 10]
+./scripts/twitter_trends.py -l [optional limit, defaults to 10] -f [optional firebase flag]
 ```
 
 eg:
 
 ```bash
-./scripts/twitter_trends.py -l 20
+./scripts/twitter_trends.py -l 20 -f
 ```
 
 ## sentiment analyzer
