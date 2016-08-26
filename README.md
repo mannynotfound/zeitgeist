@@ -2,10 +2,6 @@
 
 Utility library for scraping real time event data without the use of official APIs.
 
-# credits
-
-The search code is from [TwitterWebsiteSearch](https://github.com/dtuit/TwitterWebsiteSearch)
-sentiment analysis code from [sentiment](https://github.com/pthrasher/sentiment)
 
 # data format
 Tweets extracted, are formatted similarly to the official API, detailed [here](https://dev.twitter.com/overview/api/tweets)
@@ -84,6 +80,34 @@ eg:
 ./twitter_search.py -t python -f
 ```
 
+## google\_trends
+
+scrapes google trends API for trending topics & launches a `forever` `twitter_search` process for each topic
+
+```bash
+./scripts/google_trends.py -l [optional limit, defaults to 10]
+```
+
+eg:
+
+```bash
+./scripts/google_trends.py -l 20
+```
+
+## twitter\_trends
+
+scrapes a twitter trends website for trending topics & launches a `forever` `twitter_search` process for each topic
+
+```bash
+./scripts/twitter_trends.py -l [optional limit, defaults to 10]
+```
+
+eg:
+
+```bash
+./scripts/twitter_trends.py -l 20
+```
+
 ## sentiment analyzer
 
 analyzes the positive/negative language of a dump of tweets
@@ -98,7 +122,21 @@ eg:
 ./analyze.py -f ~/Sites/zeitgeist/dump/my_tweets.json
 ```
 
-## Dependencies 
+## splitter
+
+just a fun applescript to auto create split panes in iTerm to run `twitter_search` processes
+
+```bash
+term_names=[comma seperated list] ./scripts/splitter.scpt
+```
+
+eg:
+
+```bash
+term_names="google,apple,uber" ./scripts/splitter.scpt
+```
+
+## dependencies 
 
 * [python3](http://docs.python.org/3/)
 * [pyrebase](https://github.com/thisbejim/Pyrebase)
@@ -106,4 +144,8 @@ eg:
 * [lxml](http://lxml.de/index.html)
 * [cssselect](https://pythonhosted.org/cssselect/)
 
-note. using lmxl directly instead of BeautifulSoup as BS was too slow.
+## credits
+
+The search code is from [TwitterWebsiteSearch](https://github.com/dtuit/TwitterWebsiteSearch)
+
+sentiment analysis code from [sentiment](https://github.com/pthrasher/sentiment)
