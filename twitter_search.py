@@ -44,7 +44,7 @@ class TwitterSearch():
 
     def save_to_firebase(self):
         fb = firebase.create_firebase()
-        db = fb.database().child('tweets').child(self.term).set(self.all_tweets[0:10000])
+        db = fb.database().child('tweets').child(self.term.replace('#', '')).set(self.all_tweets[0:10000])
 
 
     def save_data(self):
@@ -79,8 +79,9 @@ if __name__ == '__main__':
     ap.add_argument('-f', '--firebase', help = 'save data to firebase', action="store_true")
 
     args = vars(ap.parse_args())
+    term = args['term'].replace('"', '').replace('#', '')
 
-    TwitterSearch(args['term'], {
+    TwitterSearch(term, {
             'limit': args['limit'],
             'firebase': args['firebase']
             })
