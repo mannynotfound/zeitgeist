@@ -71,6 +71,7 @@ eg:
 ## Dependencies 
 
 * [python3](http://docs.python.org/3/)
+* [pyrebase](https://github.com/thisbejim/Pyrebase)
 * [requests](http://docs.python-requests.org)
 * [lxml](http://lxml.de/index.html)
 * [cssselect](https://pythonhosted.org/cssselect/)
