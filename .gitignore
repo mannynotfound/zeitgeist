@@ -5,3 +5,4 @@ creds*
 service_account*
 **.pyc
 !dump/empty.json
+.master*

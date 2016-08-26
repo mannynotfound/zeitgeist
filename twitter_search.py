@@ -7,6 +7,7 @@ import argparse
 import TwitterWebsiteSearch
 import firebase
 import json_utils
+from subprocess import call
 
 class TwitterSearch():
     def __init__(self, term, opts):
@@ -41,7 +42,7 @@ class TwitterSearch():
 
     def save_to_firebase(self):
         fb = firebase.create_firebase()
-        db = fb.database().child('tweets').child(self.term.replace('#', '')).set(self.all_tweets[0:10000])
+        db = fb.database().child('tweets').child(self.term.replace('#', '')).set(self.all_tweets)
 
     def save_data(self):
         if self.use_firebase:
@@ -59,10 +60,17 @@ class TwitterSearch():
                     sys.exit(1)
                 elif len([e for e in self.all_tweets if e['id_str'] == tweet['id_str']]) == 0:
                     self.print_count += 1
-                    print("{0} | {1}".format(self.print_count, tweet['text']))
+                    message = "{0} | {1}".format(self.print_count, tweet['text'])
+                    print(message)
+
+                    realpath = os.path.dirname(os.path.realpath(__file__)) + '/.master.log'
+                    with open(realpath, "a") as master_log:
+                        master_log.write('{0} >>> {1} {2}'.format(self.term, message, '\n'))
+
                     self.all_tweets.append(tweet)
                     if len(self.all_tweets) % 100 == 0:
                         self.all_tweets = json_utils.sort_by_time(self.all_tweets)
+                        self.all_tweets = self.all_tweets[0:10000]
                         self.save_data()
 
 if __name__ == '__main__':

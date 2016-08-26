@@ -38,6 +38,9 @@ if __name__ == '__main__':
     google_trends_to_search = google_search()['_result_json']
     twitter_trends_to_search = twitter_search()['_result_json']
     merged_trends = merge_trends(google_trends_to_search, twitter_trends_to_search)
+    # reset master log
+    open(os.path.normpath(os.getcwd()) + '/.master.log', 'w').close()
+
     print('TRENDS >>>> ')
     for idx, trend in enumerate(merged_trends):
         print('{0} | {1}'.format(idx, trend))

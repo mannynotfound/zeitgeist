@@ -150,6 +150,18 @@ eg:
 term_names="google,apple,uber" ./scripts/splitter.scpt
 ```
 
+## log
+
+the `twitter_search` writes all of its messages with context term to `.master.log`,
+this is useful when running aggregate scripts to all traffic
+
+eg
+
+```bash
+./scripts/all_trends.py -l [optional limit, defaults to 10] -f [optional firebase flag]
+tail -f .master.log
+```
+
 ## dependencies 
 
 * [python3](http://docs.python.org/3/)
