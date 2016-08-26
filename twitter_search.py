@@ -70,6 +70,7 @@ class TwitterSearch():
                         self.all_tweets = json_utils.sort_by_time(self.all_tweets)
                         self.save_data()
 
+
 if __name__ == '__main__':
     # parse cli arguments
     ap = argparse.ArgumentParser()
