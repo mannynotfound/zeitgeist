@@ -91,7 +91,7 @@ uses all the trend collection scripts, merges them & launches a `forever` `twitt
 eg:
 
 ```bash
-./scripts/google_trends.py -l 20 -f
+./scripts/all_trends.py -l 20 -f
 ```
 
 ## google\_trends
@@ -158,7 +158,7 @@ this is useful when running aggregate scripts to all traffic
 eg
 
 ```bash
-./scripts/all_trends.py -l [optional limit, defaults to 10] -f [optional firebase flag]
+./scripts/all_trends.py -f -l 20
 tail -f .master.log
 ```
 
