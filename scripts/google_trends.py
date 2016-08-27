@@ -85,6 +85,7 @@ if __name__ == '__main__':
     realpath = os.path.normpath(os.getcwd()) + '/twitter_search.py'
 
     hot_trends = list(map(lambda x: x.get('name'), trends_to_search[:limit]))
+    hot_trends[0] += ',' #add this for nice reduce
     trend_string = reduce(lambda x, y: x + y + ',', hot_trends)
 
     command = 'forever start --spinSleepTime 900000 -c python3 ' + realpath
