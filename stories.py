@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 import os
-import json
 import io
 import argparse
 import feedparser
 import firebase
-from json_utils import load_json, dump_json
+import json_utils
 from time import mktime
 
 def parse_item(item):
@@ -34,14 +33,16 @@ def extract_results(parsed_feed, **opts):
         parsed_item = parse_item(item)
         parsed_item['source'] = source
         print(parsed_item['headline'])
-        print(parsed_item.get('unix_timestamp'))
         stories.append(parsed_item)
 
+    sorted_stories = json_utils.sort_by_time(stories)
     print('')
     print('~~~~~~~~~~~~~~~~~~~~~~~~')
     print('')
     print('')
-    return stories
+
+
+    return sorted_stories
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
@@ -51,7 +52,7 @@ if __name__ == '__main__':
     path = os.path.dirname(os.path.realpath(__file__))
     models_path = path + '/models'
     dump_path = path + '/dump/stories'
-    newsfeeds = load_json(models_path, 'feeds')
+    newsfeeds = json_utils.load_json(models_path, 'feeds')
 
     for feed in newsfeeds:
         parsed_feed = feedparser.parse(feed['feed'])
@@ -60,4 +61,4 @@ if __name__ == '__main__':
             fb = firebase.create_firebase()
             db = fb.database().child('stories').child(feed['source']).set(results)
         else:
-            dump_json(dump_path, feed['source'], results)
+            json_utils.dump_json(dump_path, feed['source'], results)

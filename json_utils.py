@@ -14,12 +14,19 @@ def dump_json(path, term, data):
         json.dump(data, f)
 
 def sort_by_time(data):
-    def convert_time(timestamp):
-        return time.mktime(datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S').timetuple())
+    def convert_time(item):
+        if item.get('unix_timestamp'):
+            return item
 
-    for item in data:
-        item['unix_timestamp'] = convert_time(item['created_at'])
+        timestamp = item.get('created_at')
+        if timestamp is None:
+            item['unix_timestamp'] = 0
+            return item
+        else:
+            item['unix_timestamp'] = time.mktime(datetime.strptime(timestamp, '%Y-%m-%d %H:%M:%S').timetuple())
+            return item
 
-    sorted_data = sorted(data, key=itemgetter('unix_timestamp'))
+    items = list(map(lambda x: convert_time(x), data))
+    sorted_data = sorted(items, key=itemgetter('unix_timestamp'))
     sorted_data.reverse()
     return sorted_data
