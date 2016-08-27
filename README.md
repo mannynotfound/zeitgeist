@@ -196,7 +196,7 @@ term_names="google,apple,uber" ./scripts/splitter.scpt
 ## log
 
 the `twitter_search` writes all of its messages with context term to `.master.log`,
-this is useful when running aggregate scripts to all traffic
+this is useful when running aggregate scripts to monitor all traffic
 
 eg
 
