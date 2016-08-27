@@ -100,7 +100,7 @@ and a `service_account.json` for use with authing to server
 scrapes twitter search for a certain search term
 
 ```bash
-./twitter_search.py -t [search term(s)] -l [optional limit] -f [optional firebase flag]
+./twitter_search.py -t [search term(s)] -f [optional firebase flag] -s [optional silent flag]
 ```
 
 eg:
