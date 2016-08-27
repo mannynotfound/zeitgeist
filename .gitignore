@@ -4,5 +4,6 @@ dump/*
 creds*
 service_account*
 **.pyc
-!dump/empty.json
+!dump/tweets/empty.json
+!dump/stories/empty.json
 .master*

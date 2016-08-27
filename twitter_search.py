@@ -11,7 +11,7 @@ from subprocess import call
 
 class TwitterSearch():
     def __init__(self, term, opts):
-        self.dump_path = os.path.dirname(os.path.realpath(__file__)) + '/dump'
+        self.dump_path = os.path.dirname(os.path.realpath(__file__)) + '/dump/tweets'
         self.term = term
         self.limit = opts['limit']
         self.use_firebase = opts['firebase']

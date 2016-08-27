@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # code from https://github.com/pthrasher/sentiment/blob/master/sentiment.py
 
 #
@@ -8,16 +8,15 @@
 #  Created by Philip Thrasher on 2011-02-28.
 #  Copyright 2011 pthrash entuhpryzizz. All rights reserved.
 #
-
-
 import os
 import sys
 import nltk.classify.util
 import json
-import cPickle
+import pickle
 import collections
 import argparse
 import io
+import firebase
 
 # load json
 def load_json(path):
@@ -31,6 +30,7 @@ def load_json(path):
 # parse cli arguments
 ap = argparse.ArgumentParser()
 ap.add_argument('-f', '--file', help = 'file to analyze')
+ap.add_argument('-t', '--term', help = 'term to lookup in firebase')
 ap.add_argument('-o', '--output', help = 'file to write results to')
 ap.add_argument('-l', '--limit', type=int, help = 'file to analyze')
 args = vars(ap.parse_args())
@@ -44,8 +44,8 @@ STOPWORDS = current_dir + '/pickles/stopwords.pickle'
 class Classifier():
     def __init__(self):
         """docstring for __init__"""
-        self.classifier = cPickle.load(open(CLASSIFIER))
-        #self.stopwords = cPickle.load(open(STOPWORDS))
+        with open(CLASSIFIER, 'rb') as f:
+            self.classifier = pickle.load(f)
 
     def _string_to_feature(self, text):
         """docstring for _string_to_feature"""
@@ -78,7 +78,16 @@ class Classifier():
         return sorted(final, key=lambda d: int(d['id']))
 
 if __name__ == '__main__':
-    statuses = load_json(args['file'])
+    if args['file']:
+        statuses = load_json(args['file'])
+    elif args['term']:
+        fb = firebase.create_firebase()
+        statuses = fb.database().child('tweets').child(args['term']).get().val()
+    else:
+        print('PLEASE PROVIDE FILE OR TERM')
+        sys.exit(1)
+
+    print('GOT ', len(statuses), ' STATUSES')
     all_statuses = []
     for idx, status in enumerate(statuses):
         if args['limit'] is None or idx < args['limit']:
@@ -88,18 +97,18 @@ if __name__ == '__main__':
     results = c.classify(all_statuses)
     positive = [result for result in results if result['classification'] == 'pos']
     negative = [result for result in results if result['classification'] == 'neg']
-    print ""
+    print("")
     for result in results:
         if result['classification'] == 'pos':
-            print "Good: %s\n" % result['content']
+            print("Good: %s\n" % result['content'])
         else:
-            print "Bad: %s\n" % result['content']
+            print("Bad: %s\n" % result['content'])
     unknown = len(all_statuses) - len(results)
 
     out = "Statuses analyzed: %d | Positive: %d | Negative: %d | Unknown: %s" % (len(all_statuses), len(positive), len(negative), unknown)
     metrics = "Percentiles - Positive: %d%%, Negative: %d%%" % (float(len(positive))/float(len(results))*100, float(len(negative))/float(len(results))*100)
 
-    print "="*84
-    print "= %s =" % out.center(80)
-    print "= %s =" % metrics.center(80)
-    print "="*84
+    print("="*84)
+    print("= %s =" % out.center(80))
+    print("= %s =" % metrics.center(80))
+    print("="*84)

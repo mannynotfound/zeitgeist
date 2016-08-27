@@ -4,38 +4,67 @@ Utility library for scraping real time event data without the use of official AP
 
 
 ## data format
+
+## tweets
+
 Tweets extracted, are formatted similarly to the official API, detailed [here](https://dev.twitter.com/overview/api/tweets)
 
 each tweet is a python dict with the following structure.
+
 ```
 {
-  'created_at' : UTC-datetime format '%Y-%m-%d %H:%M:%S' ,
-  'id_str' : "",
-  'text' : "",
-  'entities': {
-    'hashtags': [],
-    'symbols':[],
-    'user_mentions':[],
-    'urls':[],
-    'media'[] optional
+  "created_at": UTC-datetime format "%Y-%m-%d %H:%M:%S" ,
+  "id_str": "",
+  "text": "",
+  "entities": {
+    "hashtags": [],
+    "symbols":[],
+    "user_mentions":[],
+    "urls":[],
+    "media"[] optional
     },
-  'user' : {
-    'id_str' : "",
-    'name' : "",
-    'screen_name': "",
-    'profile_image_url': "",
-    'verified': bool
+  "user": {
+    "id_str": "",
+    "name": "",
+    "screen_name": "",
+    "profile_image_url": "",
+    "verified": bool
     },
-  'retweet_count' : 0,
-  'favorite_count' : 0,
-  'is_quote_status' : False,
-  'in_reply_to_user_id': None,
-  'in_reply_to_screen_name' : None,
-  'contains_photo': False,
-  'contains_video': False
+  "retweet_count": 0,
+  "favorite_count": 0,
+  "is_quote_status": False,
+  "in_reply_to_user_id": None,
+  "in_reply_to_screen_name": None,
+  "contains_photo": False,
+  "contains_video": False
 }
 ```
-# usage
+
+## stories
+
+Stories are retrieved using [feedparser](https://pypi.python.org/pypi/feedparser)
+
+each story is a python dict with the following structure.
+
+```
+{
+  "headline": "Some headline",
+  "summary": "Summary may contain <html>",
+  "link": "http://linktostory.com/story.html",
+  "published": "some timestamp",
+  "unix_timestamp": 131323131, 
+  "media": [
+    {
+      "height": "619",
+      "medium": "image",
+      "url": "http://linktomedia.com/media.jpg",
+      "width": "1100"
+    }, // etc
+  ]
+}
+```
+
+## usage
 
 ### firebase config:
 
@@ -78,6 +107,20 @@ eg:
 
 ```bash
 ./twitter_search.py -t python -f
+```
+
+## stories
+
+scrapes RSS feeds described in `models/feeds.json`
+
+```bash
+./stories.py -f [optional firebase flag]
+```
+
+eg:
+
+```bash
+./stories.py -f
 ```
 
 ## all\_trends

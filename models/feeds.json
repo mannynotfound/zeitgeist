@@ -1,0 +1,38 @@
+[
+  {
+    "source": "CBS News",
+    "feed": "http://www.cbsnews.com/feeds/rss/politics.rss"
+  },
+  {
+    "source": "CNN",
+    "feed": "http://rss.cnn.com/rss/cnn_allpolitics.rss"
+  },
+  {
+    "source": "BBC",
+    "feed": "http://newsrss.bbc.co.uk/rss/newsonline_world_edition/americas/rss.xml"
+  },
+  {
+    "source": "New York Times",
+    "feed": "http://www.nytimes.com/services/xml/rss/nyt/Politics.xml"
+  },
+  {
+    "source": "Wall Street Journal",
+    "feed": "http://feeds.wsjonline.com/wsj/xml/rss/3_7011.xml"
+  },
+  {
+    "source": "MSNBC",
+    "feed": "http://rss.msnbc.msn.com/id/3032091/device/rss/rss.xml"
+  },
+  {
+    "source": "Yahoo News",
+    "feed": "http://rss.news.yahoo.com/rss/politics"
+  },
+  {
+    "source": "Politico",
+    "feed": "http://www.politico.com/rss/politics.xml"
+  },
+  {
+    "source": "NPR",
+    "feed": "http://www.npr.org/rss/rss.php?id=1014"
+  }
+]
