@@ -100,13 +100,19 @@ and a `service_account.json` for use with authing to server
 scrapes twitter search for a certain search term
 
 ```bash
-./twitter_search.py -t [search term] -l [optional limit] -f [optional firebase flag]
+./twitter_search.py -t [search term(s)] -l [optional limit] -f [optional firebase flag]
 ```
 
 eg:
 
 ```bash
 ./twitter_search.py -t python -f
+```
+
+you can also pass multiple, comma seprated terms like so
+
+```bash
+./twitter_search.py -t "python, javascript, ruby" -f
 ```
 
 ## stories
