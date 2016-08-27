@@ -131,7 +131,7 @@ eg:
 
 ## all\_trends
 
-uses all the trend collection scripts, merges them & launches a `forever` `twitter_search` process for each topic
+uses all the trend collection scripts, merges them & launches a `forever` `twitter_search` process for all trends
 
 ```bash
 ./scripts/all_trends.py -l [optional limit, defaults to 10] -f [optional firebase flag]
@@ -145,7 +145,7 @@ eg:
 
 ## google\_trends
 
-scrapes google trends API for trending topics & launches a `forever` `twitter_search` process for each topic
+scrapes google trends API for trending topics & launches a `forever` `twitter_search` process for all trends
 
 ```bash
 ./scripts/google_trends.py -l [optional limit, defaults to 10] -f [optional firebase flag]
@@ -159,7 +159,7 @@ eg:
 
 ## twitter\_trends
 
-scrapes a twitter trends website for trending topics & launches a `forever` `twitter_search` process for each topic
+scrapes a twitter trends website for trending topics & launches a `forever` `twitter_search` process for all trends
 
 ```bash
 ./scripts/twitter_trends.py -l [optional limit, defaults to 10] -f [optional firebase flag]
