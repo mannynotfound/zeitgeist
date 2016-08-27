@@ -266,8 +266,11 @@ class TwitterPager():
                 error_delay=5,
                 timeout=5,
                 retry_limit=4,
+                title='',
                 continue_on_empty_result=True,
                 session=Session()):
+
+        print('STARTING NEW TWITTER PAGER FOR: ', title)
         self.rate_delay = rate_delay
         self.error_delay = error_delay
         self.timeout = timeout

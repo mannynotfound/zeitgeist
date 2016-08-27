@@ -7,14 +7,19 @@ import argparse
 import TwitterWebsiteSearch
 import firebase
 import json_utils
+import re
 from subprocess import call
+import threading
+import time
 
 class TwitterSearch():
     def __init__(self, term, opts):
-        self.dump_path = os.path.dirname(os.path.realpath(__file__)) + '/dump/tweets'
+        self.path = opts['path']
+        self.dump_path = opts['path'] + '/dump/tweets'
         self.term = term
         self.limit = opts['limit']
         self.use_firebase = opts['firebase']
+        self.silent = opts['silent']
         self.print_count = 0
         self.total_count = 0
         self.all_tweets = []
@@ -51,7 +56,7 @@ class TwitterSearch():
             json_utils.dump_json(self.dump_path, self.term, self.all_tweets)
 
     def do_twitter_search(self):
-        twitter_search_page = TwitterWebsiteSearch.TwitterPager().get_iterator(self.term)
+        twitter_search_page = TwitterWebsiteSearch.TwitterPager(title=self.term).get_iterator(self.term)
         for page in twitter_search_page:
             for tweet in page['tweets']:
                 self.total_count += 1
@@ -61,9 +66,10 @@ class TwitterSearch():
                 elif len([e for e in self.all_tweets if e['id_str'] == tweet['id_str']]) == 0:
                     self.print_count += 1
                     message = "{0} | {1}".format(self.print_count, tweet['text'])
-                    print(message)
+                    if not self.silent:
+                        print(message)
 
-                    realpath = os.path.dirname(os.path.realpath(__file__)) + '/.master.log'
+                    realpath = self.path + '/.master.log'
                     with open(realpath, "a") as master_log:
                         master_log.write('{0} >>> {1} {2}'.format(self.term, message, '\n'))
 
@@ -76,14 +82,28 @@ class TwitterSearch():
 if __name__ == '__main__':
     # parse cli arguments
     ap = argparse.ArgumentParser()
-    ap.add_argument('-t', '--term', help = 'term to search for')
+    ap.add_argument('-t', '--terms', help = 'term(s) to search for')
     ap.add_argument('-l', '--limit', type=int, help = 'max amount of tweets to search for', nargs='?', default=0)
     ap.add_argument('-f', '--firebase', help = 'save data to firebase', action="store_true")
+    ap.add_argument('-s', '--silent', help = 'doesnt output statuses', action="store_true")
 
     args = vars(ap.parse_args())
-    term = args['term'].replace('"', '').replace('#', '')
+    terms = list(map(lambda x: re.sub(r'(#|")', '', x).strip(), args['terms'].split(',')))
+    print(terms)
 
-    TwitterSearch(term, {
+    opts = {
             'limit': args['limit'],
-            'firebase': args['firebase']
-            })
+            'firebase': args['firebase'],
+            'silent': args['silent'],
+            'path': os.path.dirname(os.path.realpath(__file__))
+            }
+
+    for term in terms:
+        if len(term) is 0:
+            break
+
+        try:
+            thread = threading.Thread(target=TwitterSearch, args=(term, opts))
+            thread.start()
+        except Exception as e:
+            print(e)

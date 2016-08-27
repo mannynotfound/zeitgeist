@@ -8,6 +8,7 @@ from urllib.parse import quote, urlsplit
 from operator import itemgetter
 from subprocess import call
 import argparse
+from functools import reduce
 
 base_url = 'http://trends24.in/united-states/'
 
@@ -87,15 +88,20 @@ if __name__ == '__main__':
     ap.add_argument('-l', '--limit', type=int, help = 'max # of trends to search', default=10)
     ap.add_argument('-f', '--firebase', help = 'save data to firebase', action="store_true")
     args = vars(ap.parse_args())
+    limit = args['limit']
+    use_firebase = args['firebase']
 
     trends_to_search = search()['_result_json']
-    for hot_trend in trends_to_search[0:args['limit']]:
-        realpath = os.path.normpath(os.getcwd()) + '/twitter_search.py'
-        command = 'forever start --spinSleepTime 900000 -c python3 ' + realpath
-        if args['firebase']:
-            command += ' -f'
+    realpath = os.path.normpath(os.getcwd()) + '/twitter_search.py'
 
-        command += ' -t'
-        command_list = command.split()
-        command_list.append('"' + hot_trend['name'] + '"')
-        call(command_list)
+    hot_trends = list(map(lambda x: x.get('name'), trends_to_search[:limit]))
+    trend_string = reduce(lambda x, y: x + y + ',', hot_trends)
+
+    command = 'forever start --spinSleepTime 900000 -c python3 ' + realpath
+    if use_firebase:
+        command += ' -f'
+
+    command += ' -t'
+    command_list = command.split()
+    command_list.append('"' + trend_string + '"')
+    call(command_list)
