@@ -13,15 +13,15 @@ each tweet is a python dict with the following structure.
 
 ```
 {
-  "created_at": UTC-datetime format "%Y-%m-%d %H:%M:%S" ,
+  "created_at": "UTC-datetime format "%Y-%m-%d %H:%M:%S",
   "id_str": "",
   "text": "",
   "entities": {
     "hashtags": [],
-    "symbols":[],
-    "user_mentions":[],
-    "urls":[],
-    "media"[] optional
+    "symbols": [],
+    "user_mentions": [],
+    "urls": [],
+    "media": [] // optional
     },
   "user": {
     "id_str": "",
@@ -208,6 +208,7 @@ tail -f .master.log
 ## dependencies 
 
 * [python3](http://docs.python.org/3/)
+* [feedparser](https://pypi.python.org/pypi/feedparser)
 * [forever](https://github.com/foreverjs/forever)
 * [pyrebase](https://github.com/thisbejim/Pyrebase)
 * [requests](http://docs.python-requests.org)
