@@ -52,9 +52,14 @@ if __name__ == '__main__':
 
     command = 'forever start --spinSleepTime 900000 -c python3 ' + realpath
     if use_firebase:
+        # add firebase flag
         command += ' -f'
 
+    # add clear inactive trends flag
+    command += ' -c'
+    # finally add terms flag + append term string
     command += ' -t'
     command_list = command.split()
     command_list.append('"' + trend_string + '"')
+
     call(command_list)

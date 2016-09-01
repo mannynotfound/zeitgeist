@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, io, re, argparse, threading
+import os, io, re, argparse, threading, sys
 from subprocess import call
 import TwitterWebsiteSearch
 import firebase
@@ -71,6 +71,7 @@ if __name__ == '__main__':
     ap.add_argument('-t', '--terms', help = 'term(s) to search for')
     ap.add_argument('-f', '--firebase', help = 'save data to firebase', action="store_true")
     ap.add_argument('-s', '--silent', help = 'doesnt output statuses', action="store_true")
+    ap.add_argument('-c', '--clear', help = 'clear inactive trends', action="store_true")
 
     args = vars(ap.parse_args())
     terms = list(map(lambda x: re.sub(r'(#|")', '', x).strip(), args['terms'].split(',')))
@@ -80,6 +81,19 @@ if __name__ == '__main__':
             'silent': args['silent'],
             'path': os.path.dirname(os.path.realpath(__file__))
             }
+
+    if args['clear']:
+        try:
+            fb = firebase.create_firebase()
+            existing = fb.database().child('tweets').shallow().get().val()
+
+            for e in existing:
+                if e not in terms:
+                    print('DELETING OLD TREND >>> ', e)
+                    fb.database().child('tweets').child(e).set(None)
+
+        except Exception as e:
+            print('FUCKED UP THE CLEAR ', e)
 
     for term in terms:
         if len(term) is 0:
