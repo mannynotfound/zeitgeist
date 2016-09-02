@@ -26,7 +26,7 @@ sample response:
 #### Get Tweet Trend Tweets
 
 ```bash
-curl https://zeitgeist-404.firebaseio.com/tweets/Catfish.json
+curl https://zeitgeist-404.firebaseio.com/tweets/[trend name].json
 ```
 
 sample response: 
@@ -58,7 +58,7 @@ sample response:
 #### Get Publication Feed
 
 ```bash
-curl https://zeitgeist-404.firebaseio.com/stories/CNN.json
+curl https://zeitgeist-404.firebaseio.com/stories/[publication].json
 ```
 
 sample response: 
