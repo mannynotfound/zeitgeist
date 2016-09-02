@@ -31,7 +31,7 @@ curl https://zeitgeist-404.firebaseio.com/tweets/Catfish.json
 
 sample response: 
 
-```json
+```js
 [ 
   { // tweet object }, 
   { // tweet object }, 
@@ -47,7 +47,7 @@ curl https://zeitgeist-404.firebaseio.com/stories.json?shallow=True
 
 sample response: 
 
-```json
+```js
 {
   "CNN": true,
   "MSNBC": true,
