@@ -47,7 +47,7 @@ curl https://zeitgeist-404.firebaseio.com/stories.json?shallow=True
 
 sample response: 
 
-```js
+```json
 {
   "CNN": true,
   "MSNBC": true,
@@ -63,7 +63,7 @@ curl https://zeitgeist-404.firebaseio.com/stories/CNN.json
 
 sample response: 
 
-```json
+```js
 [ 
   { // story object }, 
   { // story object }, 
