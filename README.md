@@ -33,9 +33,9 @@ sample response:
 
 ```js
 [ 
-  { // tweet object }, 
-  { // tweet object }, 
-  { // tweet object }
+  { /* tweet object */ }, 
+  { /* tweet object */ }, 
+  { /* tweet object */ } 
 ]
 ```
 
@@ -65,9 +65,9 @@ sample response:
 
 ```js
 [ 
-  { // story object }, 
-  { // story object }, 
-  { // story object }
+  { /* story object */ }, 
+  { /* story object */ }, 
+  { /* story object */ } 
 ]
 ```
 
