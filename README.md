@@ -2,8 +2,76 @@
 
 Utility library for scraping real time event data without the use of official APIs.
 
+# Using The Public API
 
-## data format
+zeitgeist' REST API is read-only and publically accessible. Later, a utility library for handling live
+realtime updates will be released for Python & Node. For advanced REST api docs, visit the [official firebase docs](https://firebase.google.com/docs/database/rest/start).
+
+#### Get List Of Tweet Trends
+
+```bash
+curl https://zeitgeist-404.firebaseio.com/tweets.json?shallow=True
+```
+
+sample response: 
+
+```json
+{
+  "Catfish": true,
+  "Make2016Worse": true,
+  "BlackWorkMatters": true
+}
+```
+
+#### Get Tweet Trend Tweets
+
+```bash
+curl https://zeitgeist-404.firebaseio.com/tweets/Catfish.json
+```
+
+sample response: 
+
+```json
+[ 
+  { // tweet object }, 
+  { // tweet object }, 
+  { // tweet object }
+]
+```
+
+#### Get List Of Publications
+
+```bash
+curl https://zeitgeist-404.firebaseio.com/stories.json?shallow=True
+```
+
+sample response: 
+
+```json
+{
+  "CNN": true,
+  "MSNBC": true,
+  "New York Times": true
+}
+```
+
+#### Get Publication Feed
+
+```bash
+curl https://zeitgeist-404.firebaseio.com/stories/CNN.json
+```
+
+sample response: 
+
+```json
+[ 
+  { // story object }, 
+  { // story object }, 
+  { // story object }
+]
+```
+
+# Data Format
 
 ## tweets
 
@@ -64,7 +132,7 @@ each story is a python dict with the following structure.
 }
 ```
 
-## usage
+# Developer Usage
 
 ### firebase config:
 

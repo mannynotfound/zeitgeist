@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, io, re, argparse, threading, sys
+import os, io, re, argparse, threading
 from subprocess import call
 import TwitterWebsiteSearch
 import firebase
