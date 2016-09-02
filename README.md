@@ -75,9 +75,7 @@ sample response:
 
 ## tweets
 
-Tweets extracted, are formatted similarly to the official API, detailed [here](https://dev.twitter.com/overview/api/tweets)
-
-each tweet is a python dict with the following structure.
+Tweets are formatted similarly to the official API, detailed [here](https://dev.twitter.com/overview/api/tweets)
 
 ```
 {
@@ -110,9 +108,7 @@ each tweet is a python dict with the following structure.
 
 ## stories
 
-Stories are retrieved using [feedparser](https://pypi.python.org/pypi/feedparser)
-
-each story is a python dict with the following structure.
+Stories are retrieved using [feedparser](https://pypi.python.org/pypi/feedparser) and structured as follows:
 
 ```
 {
