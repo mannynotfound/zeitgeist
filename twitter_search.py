@@ -13,6 +13,7 @@ class TwitterSearch():
         self.use_firebase = opts['firebase']
         self.silent = opts['silent']
         self.print_count = 0
+        self.all_tweets = []
         self.check_existing()
         self.do_twitter_search()
 
