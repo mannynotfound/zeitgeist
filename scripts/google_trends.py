@@ -82,7 +82,8 @@ if __name__ == '__main__':
     use_firebase = args['firebase']
 
     trends_to_search = search()['_result_json']
-    realpath = os.path.normpath(os.getcwd()) + '/twitter_search.py'
+    root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    realpath = root_path + '/twitter_search.py'
 
     hot_trends = list(map(lambda x: x.get('name'), trends_to_search[:limit]))
     hot_trends[0] += ',' #add this for nice reduce

@@ -41,10 +41,10 @@ if __name__ == '__main__':
     google_trends_to_search = google_search()['_result_json']
     twitter_trends_to_search = twitter_search()['_result_json']
     merged_trends = merge_trends(google_trends_to_search, twitter_trends_to_search)
+    root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     # reset master log
-    open(os.path.normpath(os.getcwd()) + '/.master.log', 'w').close()
-
-    realpath = os.path.normpath(os.getcwd()) + '/twitter_search.py'
+    open(root_path + '/.master.log', 'w').close()
+    realpath = root_path + '/twitter_search.py'
 
     hot_trends = list(map(lambda x: x.get('name'), merged_trends[:limit]))
     hot_trends[0] += ',' #add this for nice reduce
